@@ -1,0 +1,30 @@
+{
+  "name": "technical-review",
+  "version": "1.0.0",
+  "description": "Sample CRUD APP for technical review",
+  "main": "index.js",
+  "scripts": {
+    "prestart": "npm run task",
+    "start": "gulp",
+    "start-dev": "node server/dev-server.js",
+    "lint": "eslint components",
+    "pm2": "npm run task && pm2 restart 1",
+    "menu": "webpack --config webpack.menu.config.js",
+    "build": "webpack && gulp build --production",
+    "task": "webpack",
+    "test": "mocha -w ./test/**/*.spec.js --compilers js:babel-core/register",
+    "gulp": "gulp",
+    "gulp-watch": "gulp watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/suprsidr/technical-review.git"
+  },
+  "keywords": [],
+  "author": "Wayne Patterson <suprsidr@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/suprsidr/technical-review/issues"
+  },
+  "homepage": "https://github.com/suprsidr/technical-review#readme"
+}
