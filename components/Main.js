@@ -9,7 +9,7 @@ export default class Main extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      productsLoaded: false
+      studentsLoaded: false
     };
     this.LocalDb = minimongo.MemoryDb;
     // Create local db (in memory database with no backing)
@@ -17,21 +17,16 @@ export default class Main extends Component {
   }
   componentWillMount() {
     // setup minimongo collection
-    this.db.addCollection('products');
+    this.db.addCollection('students');
 	  // check localStorage support
 	  this.localStorageSupported = this.storageAvailable('localStorage');
   }
   componentDidMount() {
-	  let data = this.localStorageSupported && JSON.parse(localStorage.getItem('productData')) || null;
+	  let data = this.localStorageSupported && JSON.parse(localStorage.getItem('studentData')) || null;
 	  const now = Math.round(new Date().getTime() / 1000);
 	  if(!data || (now - data.timeStamp) >= 86400) {
 		  fetchData({
-			  Displayable: 1,
-			  Buyable: 1,
-			  ProductStatus: {
-          $in: [1,4]
-        },
-			  BrandID: 'BLH'
+			  /*modified: {$lt: Date.now()}*/
 		  }, (err, data) => {
 			  if(err) {
 				  console.log(err);
@@ -40,7 +35,7 @@ export default class Main extends Component {
 			  }
 		  });
 	  } else {
-		  this.upsert(data.products);
+		  this.upsert(data.students);
 	  }
   }
 	storageAvailable(type) {
@@ -57,30 +52,21 @@ export default class Main extends Component {
 	}
 	upsert(data) {
 		// insert data into db as one big dump - Always use upsert for both inserts and modifies
-		this.db.products.upsert(data, () => {
+		this.db.students.upsert(data, () => {
 			console.log('data upserted');
-			this.setState({productsLoaded: true});
-			this.localStorageSupported && localStorage.setItem('productData', JSON.stringify({
+			this.setState({studentsLoaded: true});
+			this.localStorageSupported && localStorage.setItem('studentData', JSON.stringify({
 				timeStamp: Math.round(new Date().getTime() / 1000),
-				products: data
+				students: data
 			}));
 		});
 	}
-  static childContextTypes = {
-    inApp: React.PropTypes.bool
-  };
-
-  getChildContext() {
-    return {
-      inApp: true
-    };
-  }
   render() {
     return (
       <div>
         <Header />
         <div className="main_content">
-          {this.state.productsLoaded && React.Children.map(this.props.children, (child) => React.cloneElement(child, { db: this.db }))}
+          {this.state.studentsLoaded && React.Children.map(this.props.children, (child) => React.cloneElement(child, { db: this.db }))}
         </div>
         <Footer />
       </div>
