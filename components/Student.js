@@ -1,10 +1,6 @@
 import React, {Component} from 'react';
 import {PROFILE_IMAGE_URL} from '../config/globals';
 
-String.prototype.capitalize = function() {
-  return this.charAt(0).toUpperCase() + this.slice(1);
-};
-
 export default class Student extends Component {
   constructor (props) {
     super(props);
@@ -42,13 +38,6 @@ export default class Student extends Component {
       !this.state.editing && this.refs.content.classList.remove('slide-left');
     });
   }
-  capitalizeAll(str) {
-    return str
-      .replace(/  +/g, ' ')
-      .split(' ')
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
-  }
   makeQuery(id) {
     let query = {
       "sid": id
@@ -71,14 +60,14 @@ export default class Student extends Component {
         <div className="small-12 columns text-center">
           {this.state.students && this.state.students.map((student, i) => ( <div key={student.sid} className="card">
             <div className="top text-center">
-              <img className="student-image-large" src={`${PROFILE_IMAGE_URL }${student.picture.large}`} alt={`${student.name.last.capitalize()} ${student.name.first.capitalize()}`}/>
-              <h2 className="text-center">{`${student.name.first.capitalize()} ${student.name.last.capitalize()}`}</h2>
+              <img className="student-image-large" src={`${PROFILE_IMAGE_URL }${student.picture.large}`} alt={`${student.name.last} ${student.name.first}`}/>
+              <h2 className="text-center">{`${student.name.first} ${student.name.last}`}</h2>
             </div>
             <div ref="content" className="content">
               <div className="slide">
                 <div>
                   <p>DOB: {`${new Date(student.dob * 500).toLocaleDateString()}`}</p>
-                  <p>{this.capitalizeAll(student.location.street)}<br />{this.capitalizeAll(student.location.city)}, {student.location.state.capitalize()} {student.location.postcode}</p>
+                  <p>{student.location.street}<br />{student.location.city}, {student.location.state} {student.location.postcode}</p>
                   <p>Phone: {student.phone} &nbsp; Cell: {student.cell}</p>
                   <p>Email: {student.email}</p>
                   <p>Major: {student.major}</p>

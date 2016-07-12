@@ -2,10 +2,6 @@ import React, {Component} from 'react';
 import {Link, browserHistory} from 'react-router';
 import {PROFILE_IMAGE_URL} from '../config/globals';
 
-String.prototype.capitalize = function() {
-  return this.charAt(0).toUpperCase() + this.slice(1);
-}
-
 export default class Students extends Component {
   constructor (props) {
     super(props);
@@ -87,8 +83,8 @@ export default class Students extends Component {
               {this.state.students && this.state.students.map((student) => (
                 <li key={student.sid}>
                   <Link to={`/student/${student.sid}`}>
-                    <img className="student-image-small float-left" src={`${PROFILE_IMAGE_URL }${student.picture.thumbnail}`} alt={`${student.name.last.capitalize()} ${student.name.first.capitalize()}`}/>
-                    {`${student.name.last.capitalize()} ${student.name.first.capitalize()}`}
+                    <img className="student-image-small float-left" src={`${PROFILE_IMAGE_URL }${student.picture.thumbnail}`} alt={`${student.name.last} ${student.name.first}`}/>
+                    {`${student.name.last} ${student.name.first}`}
                   </Link>
                 </li>))
               }
