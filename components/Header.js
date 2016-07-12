@@ -46,7 +46,7 @@ class Header extends Component {
           <IndexLink to="/">StuMan</IndexLink></TopBarTitle>
 		    <TopBarLeft>
 			    <Menu>
-				    <MenuItem><Link to="/students(/:letter)" activeStyle={{ color: '#00d8ff' }}>Students</Link></MenuItem>
+				    <MenuItem><Link to="/students/" activeStyle={{ color: '#00d8ff' }}>Students</Link></MenuItem>
             <MenuItem><Link to="/login" activeStyle={{ color: '#00d8ff' }}>Login</Link></MenuItem>
 			    </Menu>
 		    </TopBarLeft>
