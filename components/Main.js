@@ -27,7 +27,7 @@ export default class Main extends Component {
 	  if(!data || (now - data.timeStamp) >= 86400) {
 		  fetchData({
 			  /*modified: {$lt: Date.now()}*/
-		  }, (err, data) => {
+		  }, {}, (err, data) => {
 			  if(err) {
 				  console.log(err);
 			  } else {
