@@ -6,7 +6,7 @@ export default class Footer extends Component {
       <footer className="row">
         <div className="small-6 columns">
           © 2016 Wayne Patterson<br />
-	        Fork me on <a href="https://github.com/suprsidr/react-product-pages">Github</a>
+	        Fork me on <a href="https://github.com/suprsidr/technical-review">Github</a>
         </div>
         <div className="small-6 columns text-right">
 	        <a className="react-link" href="https://facebook.github.io/react/"><h4>Built with
