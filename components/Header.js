@@ -30,11 +30,7 @@ class Header extends Component {
 	handleSubmit(e) {
 		e.preventDefault();
 		const val = this.refs.search.value || '';
-    if(this.context.inApp === undefined) {
-      location.href = `/search/${val}`;
-    } else {
-      browserHistory.push(`/search/${val}`);
-    }
+    browserHistory.push(`/search/${val}`);
     this.handleMenuItemClick();
 	}
 	handleKeyup(e) {
@@ -43,23 +39,15 @@ class Header extends Component {
 			this.handleSubmit(e);
 		}
 	}
-  static contextTypes = {
-    inApp: React.PropTypes.bool
-  };
   render() {
     return (
 	    <ResponsiveNavigation className="navbar">
-		    <TopBarTitle>{(this.context.inApp === undefined) ? <a href="/">POC Brand Site</a> :
-          <IndexLink to="/">POC Brand Site</IndexLink>}</TopBarTitle>
+		    <TopBarTitle>
+          <IndexLink to="/">StuMan</IndexLink></TopBarTitle>
 		    <TopBarLeft>
 			    <Menu>
-				    <MenuItem>{(this.context.inApp === undefined) ? <a href="/products/multirotor">MultiRotor</a> :
-              <Link to="/products/multirotor" activeStyle={{ color: '#00d8ff' }}>MultiRotor</Link>}</MenuItem>
-				    <MenuItem>{(this.context.inApp === undefined) ? <a href="/products/helicopters">Helicopters</a> :
-              <Link to="/products/helicopters" activeStyle={{ color: '#00d8ff' }}>Helicopters</Link>}</MenuItem>
-            <MenuItem>{(this.context.inApp === undefined) ? <a href="/video">Videos</a> :
-              <Link to="/video" activeStyle={{ color: '#00d8ff' }}>Videos</Link>}</MenuItem>
-            <MenuItem><a href="/storelocator">Storelocator</a></MenuItem>
+				    <MenuItem><Link to="/students(/:letter)" activeStyle={{ color: '#00d8ff' }}>Students</Link></MenuItem>
+            <MenuItem><Link to="/login" activeStyle={{ color: '#00d8ff' }}>Login</Link></MenuItem>
 			    </Menu>
 		    </TopBarLeft>
 		    <TopBarRight>
