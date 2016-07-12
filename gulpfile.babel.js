@@ -25,7 +25,7 @@ gulp.task('build', sass);
 // Build the site, run the server, and watch for file changes
 gulp.task('default',
   gulp.series(sass,
-    gulp.parallel(watch, () => {
+    gulp.parallel(watch/*, () => {
       childProcess.spawn('node', ['./server/server'], {
         stdio: 'inherit'
       })
@@ -33,7 +33,7 @@ gulp.task('default',
           // User closed the app. Kill the host process.
           process.exit();
         });
-    })
+    }*/)
   )
 );
 
