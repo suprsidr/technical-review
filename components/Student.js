@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {PROFILE_IMAGE_URL} from '../config/globals';
-import {updateRemoteData} from '../config/utils';
+import {browserHistory} from 'react-router';
+import {updateRemoteData, updateLocalStorage, deleteRemoteData} from '../config/utils';
 
 export default class Student extends Component {
   constructor (props) {
@@ -50,6 +50,23 @@ export default class Student extends Component {
   }
   handleDeleteClick(e) {
     e.preventDefault();
+    // TODO add confirm msg
+    const char = this.state.students[0].name.last.charAt(0);
+    deleteRemoteData({sid: this.state.students[0].sid}, (err, res) => {
+      if(err) {
+        console.log(err);
+        return;
+      }
+      if(res) {
+        this.props.db.students.remove(this.state.students[0]._id, () => {
+          console.log('item removed');
+          updateLocalStorage(this.props.db);
+          browserHistory.push(`/students/${char}`);
+        }, () => console.log('an error ocurred'))
+      } else {
+        console.log('no remote delete performed');
+      }
+    })
   }
   toggleEditing() {
     this.setState({editing: !this.state.editing}, () => {
@@ -70,7 +87,7 @@ export default class Student extends Component {
   }
   query(q, p) {
     this.props.db.students.find(q, p).fetch((data) => {
-      this.setState({students: data}, () => console.log(this.state));
+      this.setState({students: data});
     });
   }
   sendData(obj) {
@@ -84,14 +101,15 @@ export default class Student extends Component {
         return;
       }
       if(data) {
-        console.log("data: " + data);
         // add our mongo _id to our data
         data._id = this.state.students[0]._id;
         this.props.db.students.upsert(data, (res) => {
           console.log('upsert result', res);
           this.makeQuery(data.sid);
+          // update local storage
+          updateLocalStorage(this.props.db);
           this.toggleEditing();
-        })
+        }, () => console.log('an error ocurred'))
       } else {
         console.log('no remote update performed');
       }
@@ -104,7 +122,7 @@ export default class Student extends Component {
         <div className="small-12 columns text-center">
           {this.state.students && this.state.students.map((student, i) => ( <div key={student.sid} className="card">
             <div className="top text-center">
-              <img className="student-image-large" src={`${PROFILE_IMAGE_URL }${student.picture.large}`} alt={`${student.name.last} ${student.name.first}`}/>
+              <img className="student-image-large" src={`${student.picture.large}`} alt={`${student.name.last} ${student.name.first}`}/>
               <h2 className="text-center">{`${student.name.first} ${student.name.last}`}</h2>
             </div>
             <div ref="content" className="content">
