@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Link, browserHistory} from 'react-router';
-import {PROFILE_IMAGE_URL} from '../config/globals';
 
 export default class Students extends Component {
   constructor (props) {
@@ -83,7 +82,7 @@ export default class Students extends Component {
               {this.state.students && this.state.students.map((student) => (
                 <li key={student.sid}>
                   <Link to={`/student/${student.sid}`}>
-                    <img className="student-image-small float-left" src={`${PROFILE_IMAGE_URL }${student.picture.thumbnail}`} alt={`${student.name.last} ${student.name.first}`}/>
+                    <img className="student-image-small float-left" src={`${student.picture.thumbnail}`} alt={`${student.name.last} ${student.name.first}`}/>
                     {`${student.name.last} ${student.name.first}`}
                   </Link>
                 </li>))
