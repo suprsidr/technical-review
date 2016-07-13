@@ -70,8 +70,7 @@ export default class Student extends Component {
   }
   query(q, p) {
     this.props.db.students.find(q, p).fetch((data) => {
-      this.setState({students: data});
-      console.log(this.state);
+      this.setState({students: data}, () => console.log(this.state));
     });
   }
   sendData(obj) {
@@ -153,9 +152,9 @@ export default class Student extends Component {
                         </div>
                         <div className="row">
                           <div className="small-6 columns">
-                            <label>Phone: <input type="telephone" id="phone" defaultValue={student.phone}/></label></div>
+                            <label>Phone: <input type="tel" id="phone" defaultValue={student.phone}/></label></div>
                           <div className="small-6 columns">
-                            <label>Cell: <input type="telephone" id="cell" defaultValue={student.cell}/></label>
+                            <label>Cell: <input type="tel" id="cell" defaultValue={student.cell}/></label>
                           </div>
                         </div>
                         <div className="row">
