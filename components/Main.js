@@ -11,9 +11,9 @@ export default class Main extends Component {
     this.state = {
       studentsLoaded: false
     };
-    this.LocalDb = minimongo.MemoryDb;
+    this.IndexedDb = minimongo.IndexedDb;
     // Create local db (in memory database with no backing)
-    this.db = new this.LocalDb();
+    this.db = new this.IndexedDb({namespace: "studentData"});
   }
   componentWillMount() {
     // setup minimongo collection
