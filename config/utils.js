@@ -34,8 +34,31 @@ export const fetchData = (
 			});
 };
 
+/**
+ * update data on the server
+ * @param {Object} query
+ * @param {Function} cb
+ */
+export const updateRemoteData = (
+  query = {},
+  cb) => {
+  console.log('updating data on the server');
+  const q = JSON.stringify(query);
+  request
+    .post(`${FETCH_URL}/update/${q}`)
+    .end((err, res) => {
+      console.log('error: ' + err, 'body: ' + JSON.stringify(res.body));
+      if (err) {
+        cb(err);
+      } else {
+        const data = res.body.result.nModified === 1 ? res.body.student : null;
+        cb(null, data);
+      }
+    });
+};
+
 export const upsert = (db, data, cb) => {
-	db.products.upsert(data, () => {
+	db.students.upsert(data, () => {
 		console.log('data upserted');
     cb && cb();
 	});

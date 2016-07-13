@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {PROFILE_IMAGE_URL} from '../config/globals';
+import {updateRemoteData} from '../config/utils';
 
 export default class Student extends Component {
   constructor (props) {
@@ -9,9 +10,7 @@ export default class Student extends Component {
       baseQuery: {},
       editing: false
     };
-    this.fields = {
-      _id: -1
-    };
+    this.fields = {};
   }
   componentDidMount() {
     this.makeQuery(this.props.params.id);
@@ -28,6 +27,26 @@ export default class Student extends Component {
   }
   handleSaveClick(e) {
     e.preventDefault();
+    const form = document.querySelector('#edit-form');
+    const inputs = Array.from(form.querySelectorAll('input'));
+  
+    const obj = inputs.reduce((prev, next) => {
+      //console.log(next.id, next.value);
+      var arr = next.id.split('.');
+      if(arr.length > 1) {
+        try{
+          prev[arr[0]][arr[1]] = next.value;
+        } catch(e) {
+          prev[arr[0]] = {};
+          prev[arr[0]][arr[1]] = next.value;
+        }
+      } else {
+        prev[next.id] = next.value;
+      }
+      return prev;
+    }, {});
+    //console.log(obj);
+    this.sendData(obj);
   }
   handleDeleteClick(e) {
     e.preventDefault();
@@ -52,7 +71,33 @@ export default class Student extends Component {
   query(q, p) {
     this.props.db.students.find(q, p).fetch((data) => {
       this.setState({students: data});
+      console.log(this.state);
     });
+  }
+  sendData(obj) {
+    // TODO need to get our admin username for this POST
+    updateRemoteData({
+      admin: 'Joe Friday',
+      student: obj
+    }, (err, data) => {
+      if(err) {
+        console.log('error', err);
+        return;
+      }
+      if(data) {
+        console.log("data: " + data);
+        // add our mongo _id to our data
+        data._id = this.state.students[0]._id;
+        this.props.db.students.upsert(data, (res) => {
+          console.log('upsert result', res);
+          this.makeQuery(data.sid);
+          this.toggleEditing();
+        })
+      } else {
+        console.log('no remote update performed');
+      }
+    
+    })
   }
   render() {
     return (
@@ -65,13 +110,13 @@ export default class Student extends Component {
             </div>
             <div ref="content" className="content">
               <div className="slide">
-                <div>
-                  <p>DOB: {`${new Date(student.dob * 500).toLocaleDateString()}`}</p>
+                <div className="small-12 columns">
                   <p>{student.location.street}<br />{student.location.city}, {student.location.state} {student.location.postcode}</p>
-                  <p>Phone: {student.phone} &nbsp; Cell: {student.cell}</p>
+                  <p>Phone: {student.phone} <br className="show-for-small-only"/> Cell: {student.cell}</p>
                   <p>Email: {student.email}</p>
                   <p>Major: {student.major}</p>
                   <p>GPA: {student.gpa}</p>
+                  <p>DOB: {`${new Date(student.dob * 500).toLocaleDateString()}`}</p>
                   <p>{`Registered: ${new Date(student.registered * 1000).toLocaleDateString()}`}</p>
                   <p>&nbsp;</p>
                   <p>Last updated: <span className="grey-text">{new Date(student.modified).toUTCString()}</span></p>
@@ -79,55 +124,56 @@ export default class Student extends Component {
                   <p>ID: <span className="grey-text">{student.sid}</span></p>
                 </div>
                 <div className="small-12 columns text-left">
-                  <form>
+                  <form id="edit-form">
                     <div className="row">
                       <div className="small-12 columns medium-10 large-8 medium-centered">
                         <div className="row">
                           <div className="small-12 medium-6 columns">
-                            <label>First Name: <input type="text" value={student.name.first}/></label>
+                            <label>First Name: <input type="text" id="name.first" defaultValue={student.name.first}/></label>
                           </div>
                           <div className="small-12 medium-6 columns">
-                            <label>Last Name: <input type="text" value={student.name.last}/></label>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="small-12 medium-6 columns">
-                            <label>Street: <input type="text" value={student.location.street}/></label>
-                          </div>
-                          <div className="small-12 medium-6 columns">
-                            <label>City: <input type="text" value={student.location.city}/></label>
+                            <label>Last Name: <input type="text" id="name.last" defaultValue={student.name.last}/></label>
                           </div>
                         </div>
                         <div className="row">
                           <div className="small-12 medium-6 columns">
-                            <label>State: <input type="text" value={student.location.state}/></label>
+                            <label>Street: <input type="text" id="location.street" defaultValue={student.location.street}/></label>
                           </div>
                           <div className="small-12 medium-6 columns">
-                            <label>Postal Code: <input type="text" value={student.location.postcode}/></label>
+                            <label>City: <input type="text" id="location.city" defaultValue={student.location.city}/></label>
                           </div>
                         </div>
                         <div className="row">
                           <div className="small-6 columns">
-                            <label>Phone: <input type="text" value={student.phone}/></label></div>
+                            <label>State: <input type="text" id="location.state" defaultValue={student.location.state}/></label>
+                          </div>
                           <div className="small-6 columns">
-                            <label>Cell: <input type="text" value={student.cell}/></label>
+                            <label>Postal Code: <input type="text" id="location.postcode" defaultValue={student.location.postcode}/></label>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="small-6 columns">
+                            <label>Phone: <input type="telephone" id="phone" defaultValue={student.phone}/></label></div>
+                          <div className="small-6 columns">
+                            <label>Cell: <input type="telephone" id="cell" defaultValue={student.cell}/></label>
                           </div>
                         </div>
                         <div className="row">
                           <div className="small-12 columns">
-                            <label>Email: <input type="text" value={student.email}/></label>
+                            <label>Email: <input type="email" id="email" defaultValue={student.email}/></label>
                           </div>
                         </div>
                         <div className="row">
                           <div className="small-12 medium-6 columns">
-                            <label>Major: <input type="text" value={student.major}/></label>
+                            <label>Major: <input type="text" id="major" defaultValue={student.major}/></label>
                           </div>
                           <div className="small-12 medium-6 columns">
-                            <label>GPA: <input type="text" value={student.gpa}/></label>
+                            <label>GPA: <input type="text" id="gpa" defaultValue={student.gpa}/></label>
                           </div>
                         </div>
                       </div>
                     </div>
+                    <input id="sid" type="hidden" defaultValue={student.sid}/>
                   </form>
                 </div>
               </div>
