@@ -247,5 +247,14 @@ p {
 @media screen and (min-width: 40em) and (max-width: 63.9375em) {
 }
 
+@media screen and (min-width: 40em) {
+  .student-list {
+    li {
+      width: 50%;
+      float: left;
+    }
+  }
+}
+
 
 
