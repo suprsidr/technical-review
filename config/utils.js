@@ -80,8 +80,7 @@ export const insertRemoteData = (
       if (err) {
         cb(err);
       } else {
-        const data = res.body.result.nModified === 1 ? res.body.student : null;
-        cb(null, data);
+        cb(null, res.body.result[0]);
       }
     });
 };
