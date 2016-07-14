@@ -47,7 +47,7 @@ class Header extends Component {
 		    <TopBarLeft>
 			    <Menu>
 				    <MenuItem><Link to="/students/" activeStyle={{ color: '#00d8ff' }}>Students</Link></MenuItem>
-            <MenuItem><Link to="/login" activeStyle={{ color: '#00d8ff' }}>Login</Link></MenuItem>
+            <MenuItem><Link to="/new" activeStyle={{ color: '#00d8ff' }}>New</Link></MenuItem>
 			    </Menu>
 		    </TopBarLeft>
 		    <TopBarRight>
