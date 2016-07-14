@@ -22,12 +22,6 @@ export default class NewStudent extends Component {
         break;
     }
   }
-  handleBlur(e) {
-    e.preventDefault();
-    const val = e.target.value;
-    document.getElementById('picture.medium').value = val;
-    document.getElementById('picture.thumbnail').value = val;
-  }
   handleSaveClick(e) {
     e.preventDefault();
     const form = document.querySelector('#new-form');
@@ -102,9 +96,7 @@ export default class NewStudent extends Component {
                             <label>DOB: <input type="text" id="dob" defaultValue="" required placeholder="01/15/1990"/></label>
                           </div>
                           <div className="small-12 medium-6 columns">
-                            <label>Image: <input type="text" id="picture.large" defaultValue={NEW_PROFILE_IMAGE_URL} required onBlur={(e) => this.handleBlur(e)}/></label>
-                            <input type="hidden" id="picture.medium" defaultValue={NEW_PROFILE_IMAGE_URL}/>
-                            <input type="hidden" id="picture.thumbnail" defaultValue={NEW_PROFILE_IMAGE_URL}/>
+                            <label>Image: <input type="text" id="picture.large" defaultValue={NEW_PROFILE_IMAGE_URL} required/></label>
                           </div>
                         </div>
                         <div className="row">
