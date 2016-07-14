@@ -49,7 +49,11 @@ export default class Search extends Component {
   }
   query(q, p) {
     this.props.db.students.find(q, p).fetch((data) => {
-      this.setState({students: data});
+      if(data.length === 1) {
+        browserHistory.push(`/student/${data[0].sid}`);
+      } else {
+        this.setState({students: data});
+      }
     });
   }
   render() {
