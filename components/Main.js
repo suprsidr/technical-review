@@ -24,7 +24,7 @@ export default class Main extends Component {
   componentDidMount() {
 	  let data = this.localStorageSupported && JSON.parse(localStorage.getItem('studentData')) || null;
 	  const now = Math.round(new Date().getTime() / 1000);
-	  if(!data || (now - data.timeStamp) >= 86400) {
+	  if(!data || (now - data.timeStamp) >= 900) {
 		  fetchData({
 			  /*modified: {$lt: Date.now()}*/
 		  }, {}, (err, data) => {
