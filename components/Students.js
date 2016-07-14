@@ -60,7 +60,7 @@ export default class Students extends Component {
     return (
       <div>
         <div className="row">
-          <div className="small-8 medium-6 small-centered columns">
+          <div className="small-8 medium-7 small-centered columns">
             <ul className="pagination alphabet text-center show-for-medium" role="navigation" aria-label="Pagination">
               {letters.map((char, i) => (
                 <li
@@ -76,7 +76,7 @@ export default class Students extends Component {
           </div>
         </div>
         <div className="row">
-          <div className="small-8 medium-6 small-centered columns">
+          <div className="small-8 medium-7 small-centered columns">
             <ul className="student-list">
               {this.state.students.length === 0 && <li>Sorry, no results for {this.state.letter}.</li>}
               {this.state.students && this.state.students.map((student) => (
