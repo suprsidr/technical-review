@@ -173,8 +173,11 @@ export default class Student extends Component {
                           </div>
                         </div>
                         <div className="row">
-                          <div className="small-12 columns">
+                          <div className="small-12 medium-6 columns">
                             <label>Email: <input type="email" id="email" defaultValue={student.email}/></label>
+                          </div>
+                          <div className="small-12 medium-6 columns">
+                            <label>Image: <input type="text" id="picture.large" defaultValue={student.picture.large}/></label>
                           </div>
                         </div>
                         <div className="row">
