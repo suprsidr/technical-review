@@ -80,7 +80,7 @@ export default class Students extends Component {
             <ul className="student-list">
               {this.state.students.length === 0 && <li>Sorry, no results for {this.state.letter}.</li>}
               {this.state.students && this.state.students.map((student) => (
-                <li key={student.sid}>
+                <li key={student.sid} id={student.sid}>
                   <Link to={`/student/${student.sid}`}>
                     <img className="student-image-small float-left" src={`${student.picture.thumbnail}`} alt={`${student.name.last} ${student.name.first}`}/>
                     {`${student.name.last} ${student.name.first}`}
