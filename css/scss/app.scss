@@ -237,6 +237,8 @@ p {
 }
 .student-image-large {
   border: .5rem solid #fff;
+  max-width: 144px;
+  height: auto;
 }
 .student-image-small {
   max-width: 48px;
