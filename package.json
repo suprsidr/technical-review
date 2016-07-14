@@ -1,6 +1,6 @@
 {
   "name": "technical-review",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Sample CRUD APP for technical review",
   "main": "index.js",
   "scripts": {
