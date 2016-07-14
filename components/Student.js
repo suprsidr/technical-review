@@ -18,9 +18,6 @@ export default class Student extends Component {
   componentWillReceiveProps(nextProps) {
     this.makeQuery(nextProps.params.id);
   }
-  convertDate(timestamp, multiplier = 1) {
-    return new Date(timestamp * multiplier);
-  }
   handleEditClick(e) {
     e.preventDefault();
     this.toggleEditing();
@@ -133,8 +130,8 @@ export default class Student extends Component {
                   <p>Email: {student.email}</p>
                   <p>Major: {student.major}</p>
                   <p>GPA: {student.gpa}</p>
-                  <p>DOB: {`${new Date(student.dob * 500).toLocaleDateString()}`}</p>
-                  <p>{`Registered: ${new Date(student.registered * 1000).toLocaleDateString()}`}</p>
+                  <p>DOB: {`${new Date(student.dob).toLocaleDateString()}`}</p>
+                  <p>{`Registered: ${new Date(student.registered).toLocaleDateString()}`}</p>
                   <p>&nbsp;</p>
                   <p>Last updated: <span className="grey-text">{new Date(student.modified).toUTCString()}</span></p>
                   <p>Modified by: <span className="grey-text">{student.modifiedby}</span></p>
